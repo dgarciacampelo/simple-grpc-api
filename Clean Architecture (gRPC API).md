@@ -1,4 +1,4 @@
-## Clean Architecture and Your Go gRPC API
+## Clean Architecture and this Go gRPC API
 
 This document describes how to structure this Go gRPC API project following Clean Architecture:
 
@@ -16,11 +16,11 @@ Clean Architecture organizes code into layers, with dependencies pointing inward
 
   - **Database Adapters (Repositories):** Implement interfaces defined in the use case layer to interact with the database (SQLite in your case). They convert data between your database tables and entity structs.
 
-- **Frameworks and Drivers:** The outermost layer. It contains the frameworks and tools that are used by the application, such as the gRPC server, the SQLite database driver, and any other external libraries.
+- **Frameworks and Drivers:** The outermost layer. It contains the frameworks and tools that are used by the application, such as the gRPC server, the SQLite database driver, and any other external libraries (like [pressly/goose](https://github.com/pressly/goose) for database migrations).
 
 **2. Project Structure**
 
-Here's a suggested directory structure for your Go project:
+Here's a suggested directory structure for this Go project:
 
     simple_grpc_api/
     ├── cmd/
@@ -37,7 +37,7 @@ Here's a suggested directory structure for your Go project:
     │   │   ├── item/
     │   │   ├── purchase/
     │   ├── adapter/       # Interface Adapters
-    │   │   ├── grpc/       # gRPC handlers/presenters
+    │   │   ├── grpc/      # gRPC handlers/presenters
     │   │   │   ├── user_grpc.go
     │   │   │   ├── item_grpc.go
     │   │   │   ├── purchase_grpc.go
@@ -46,10 +46,14 @@ Here's a suggested directory structure for your Go project:
     │   │   │   │   ├── user_repository_sqlite.go
     │   │   │   │   ├── item_repository_sqlite.go
     │   │   │   │   ├── purchase_repository_sqlite.go
-    ├── pkg/           # Reusable helper functions
-    ├── proto/         # Protocol Buffer definitions (.proto files)
+    │   │   ├── migrations/  # Store database migration files here
+    |   │   │   ├── sqlite/
+    │   │   │   │   ├── 20250511200200_create_tables.sql
+    ├── pkg/              # Reusable helper functions
     ├── go.mod
     ├── go.sum
+
+Note: The _proto_ folder was removed due to protocol buffer definitions being imported from an external repository.
 
 **3. How Your Database Schema Fits In**
 
